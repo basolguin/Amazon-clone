@@ -3,8 +3,13 @@ import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import ShoppingBasketIcon from "@material-ui/icons/ShoppingBasket";
 import { Link } from "react-router-dom";
+import { useStateValue } from "./StateProvider";
 
 function Header() {
+  //we may not need the dispatch, but for convenience we leave it
+  //agarramos la basket[] y luego mostramos el largo de ella en icono basket
+  const [{ basket }, dispatch] = useStateValue();
+
   return (
     <div className="header">
       <Link to="/">
@@ -42,7 +47,12 @@ function Header() {
         <Link to="/checkout">
           <div className="header__optionBasket">
             <ShoppingBasketIcon />
-            <span className="header__optionLineTwo header__basketCount">0</span>
+            {/* mostramos el largo de basket[] */}
+            <span className="header__optionLineTwo header__basketCount">
+              {/* we add ? so if for whatever reason there is an error the app does not freak out and handles it fine
+              for example basket undefined due to an error, or we don't have the correct value  */}
+              {basket?.length}
+            </span>
           </div>
         </Link>
       </div>
