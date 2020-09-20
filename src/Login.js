@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./Login.css";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { auth } from "./firebase";
 
 function Login() {
-  //useState with ('') because there has to an empty string instead of null
+  const history = useHistory(); //parte de React, para redireccionar
+
+  //useState with ('') because it has to be an empty string instead of null
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -12,11 +15,32 @@ function Login() {
   const signIn = (e) => {
     e.preventDefault();
 
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then((auth) => {
+        //exitosamente ha create un nuevo usuario con email y contraseña
+        console.log(auth);
+        if (auth) {
+          history.push("/");
+        }
+      })
+      .catch((error) => alert(error.message));
     //Elegante login con Firebase
   };
 
   const register = (e) => {
     e.preventDefault();
+
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((auth) => {
+        //exitosamente ha create un nuevo usuario con email y contraseña
+        console.log(auth);
+        if (auth) {
+          history.push("/");
+        }
+      })
+      .catch((error) => alert(error.message));
 
     //Elegante login con Firebase
   };
