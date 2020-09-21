@@ -1,12 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import Header from "./Header";
 import Home from "./Home";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Checkout from "./Checkout";
 import Login from "./Login";
+import { auth } from "./firebase";
+import { useStateValue } from "./StateProvider";
 
 function App() {
+  const [{}, dispatch] = useStateValue();
+
+  //creamos un Listener que monitorea si alguien ha iniciado sesión
+  //y quién lo hizo
+  useEffect(() => {
+    // Se ejecutará solo una vez cuando el componente App cargue...
+    auth.onAuthStateChanged((authUser) => {
+      console.log("EL USUARIO ES >>> ", authUser);
+
+      if (authUser) {
+        // el user ha iniciado sesión / el user ya estaba conectado
+
+        dispatch({
+          type: "SET_USER",
+          user: authUser,
+        });
+      } else {
+        // El user ha cerrado sesión
+        dispatch({
+          type: "SET_USER",
+          user: null,
+        });
+      }
+    });
+  }, []);
+
   return (
     // Metodologia BEM
     <Router>

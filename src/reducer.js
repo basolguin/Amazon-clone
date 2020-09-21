@@ -1,6 +1,7 @@
 export const initialState = {
   //Comenzamos con una Basket vacía
   basket: [],
+  user: null,
 };
 
 // Selector (good practice)
@@ -39,7 +40,11 @@ const reducer = (state, action) => {
         ...state,
         basket: newBasket,
       };
-
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.user,
+      };
     //debemos tener nuestro default:
     default:
       return state;

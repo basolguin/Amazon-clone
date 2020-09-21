@@ -10,7 +10,7 @@ function Product({ id, title, image, price, rating }) {
 
   //const {basket} para lo siguiente
   //vemos en la consola que se añaden los items dentro de basket[] de reducer.js
-  console.log("this is the basket", basket);
+  // console.log("this is the basket", basket);
 
   const addToBasket = () => {
     //dispatch the item into the data layer
